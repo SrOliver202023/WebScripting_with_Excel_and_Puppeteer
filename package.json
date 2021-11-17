@@ -1,0 +1,20 @@
+{
+  "name": "auto-sombra",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "read": "ts-node-dev --transpile-only --ignore-watch node_modules --respawn src/modules/Excel/useCases/readExcel/",
+    "write": "ts-node-dev --transpile-only --ignore-watch node_modules --respawn src/modules/Excel/useCases/writeExcel/",
+    "start": "nodemon src/server.js"
+  },
+  "devDependencies": {
+    "@types/exceljs": "^1.3.0",
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.4.4"
+  },
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "exceljs": "^4.3.0"
+  }
+}
