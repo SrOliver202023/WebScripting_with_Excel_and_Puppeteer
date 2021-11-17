@@ -4,8 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "read": "ts-node-dev --transpile-only --ignore-watch node_modules --respawn src/modules/Excel/useCases/readExcel/",
-    "write": "ts-node-dev --transpile-only --ignore-watch node_modules --respawn src/modules/Excel/useCases/writeExcel/",
+    "read": "ts-node-dev --transpile-only --ignore-watch node_modules --respawn src/modules/Excel/useCases/useExcel/",
     "start": "nodemon src/server.js"
   },
   "devDependencies": {

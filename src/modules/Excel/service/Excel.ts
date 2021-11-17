@@ -13,8 +13,8 @@ class Excel implements IExcel {
   }
 
   private async sheet(sheetName: string): Promise<Worksheet> {
-    const workbook = (await this.workbook.xlsx.readFile(this.filename)).getWorksheet(sheetName)
-    return workbook
+    const workbook = (await this.workbook.xlsx.readFile(this.filename)).getWorksheet(sheetName);
+    return workbook;
   }
 
   async read(sheetName: string): Promise<IClient[]> {
@@ -23,49 +23,33 @@ class Excel implements IExcel {
     const skipInt = 2;
 
     const numberRows = worksheet.getColumn('A').values.length;
-    const formattedArray:IClient[] = [];
+    const formattedArray: IClient[] = [];
 
-    const rows = worksheet.getRows(skipInt, numberRows - skipInt)
-    rows.map(async (row, index)=>{
-      const item = row.model.cells.map(item=>item.result)
-      const newClient = { 
-        row: index, 
-        name: item[2], 
+    const rows = worksheet.getRows(skipInt, numberRows - skipInt);
+    rows.map(async (row, index) => {
+      const item = row.model.cells.map(item => item.result);
+      const skipInt = 2;
+
+      const newClient = {
+        row: index + skipInt,
+        name: item[2],
         contact: item[5]
-      }
-      formattedArray.push(newClient)
-    })
-    return formattedArray;
+      };
 
+      formattedArray.push(newClient);
+    });
+    return formattedArray;
   }
 
-  async write(sheetName: string): Promise<void> {
+  async write(sheetName: string, listRows: IClient[]): Promise<void> {
     const worksheet = await this.sheet(sheetName);
-    const skipInt = 2;
 
-    // await this.read(sheetName)
-    // .then(async(resp)=>{
-    //    resp.map(async(item, index)=>{
-    //     if(index<5){
-    //       console.log(item.row)
-    //       worksheet.getCell(`I${item.row + skipInt}`).value = "nada"
-    //       await this.workbook.xlsx.writeFile(this.filename)
-    //     }
-    //   })
-    // })
-    worksheet.getCell("I2").value = "nada"
-    await this.workbook.xlsx.writeFile(this.filename).then(()=> console.log("OKS"))
-    // array.forEach(async (item, index)=>{
-    //   if(index < 5){
-    //     console.log(item.row)
-    //     const range = `I${item.row + skipInt}`
-    //     worksheet.getCell(range).value = "nada"
-    //     await this.workbook.xlsx.writeFile(this.filename)
-    //   }
-    // })
-    
-    // worksheet.getCell("G2").value = "nada"
+    listRows.map((item, index) => {
+      worksheet.getCell(`H${item.row}`).value = `Hi`;
+    });
+    await this.workbook.xlsx.writeFile(this.filename).then(() => console.log("OKS"));
   }
 }
+
 
 export { Excel };

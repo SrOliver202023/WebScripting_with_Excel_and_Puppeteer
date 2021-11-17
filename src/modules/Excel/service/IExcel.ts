@@ -1,9 +1,9 @@
 import ExcelJS, { Workbook, Worksheet } from 'exceljs';
-import { IClient } from '../dtos/index'
+import { IClient } from '../dtos/index';
 
 interface IExcel {
   read(sheetname: string): Promise<IClient[]>;
-  write(sheetname: string): Promise<void>;
+  write(sheetName: string, listRows: IClient[]): Promise<void>;
 }
 
 export { IExcel };
