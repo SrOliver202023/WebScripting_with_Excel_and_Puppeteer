@@ -1,5 +1,6 @@
-import ExcelJS, { Workbook, Worksheet } from 'exceljs';
+import ExcelJS, { Workbook, WorksheetModel, Worksheet } from 'exceljs';
 import { IExcel } from './IExcel';
+import { IClient } from '../dtos/index';
 
 class Excel implements IExcel {
   private workbook: Workbook;
@@ -12,31 +13,59 @@ class Excel implements IExcel {
   }
 
   private async sheet(sheetName: string): Promise<Worksheet> {
-    const workbook = await this.workbook.xlsx.readFile(this.filename);
-    const worksheet = workbook.getWorksheet(sheetName);
-    return worksheet;
+    const workbook = (await this.workbook.xlsx.readFile(this.filename)).getWorksheet(sheetName)
+    return workbook
   }
 
-  async read(sheetName: string): Promise<void> {
+  async read(sheetName: string): Promise<IClient[]> {
     const worksheet = await this.sheet(sheetName);
-    const rows = worksheet.getColumn('A').values.length - 1;
-    const intSolt = 2;
 
-    const unformattedArray = [];
-    const formattedArray = [];
+    const skipInt = 2;
 
-    const ivalue = worksheet.getRows(0, 3);
+    const numberRows = worksheet.getColumn('A').values.length;
+    const formattedArray:IClient[] = [];
 
-    const iValue2 = ivalue.map(item => item.values);
+    const rows = worksheet.getRows(skipInt, numberRows - skipInt)
+    rows.map(async (row, index)=>{
+      const item = row.model.cells.map(item=>item.result)
+      const newClient = { 
+        row: index, 
+        name: item[2], 
+        contact: item[5]
+      }
+      formattedArray.push(newClient)
+    })
+    return formattedArray;
 
   }
 
   async write(sheetName: string): Promise<void> {
+    const worksheet = await this.sheet(sheetName);
+    const skipInt = 2;
 
-
-    throw new Error('Method not implemented.');
+    // await this.read(sheetName)
+    // .then(async(resp)=>{
+    //    resp.map(async(item, index)=>{
+    //     if(index<5){
+    //       console.log(item.row)
+    //       worksheet.getCell(`I${item.row + skipInt}`).value = "nada"
+    //       await this.workbook.xlsx.writeFile(this.filename)
+    //     }
+    //   })
+    // })
+    worksheet.getCell("I2").value = "nada"
+    await this.workbook.xlsx.writeFile(this.filename).then(()=> console.log("OKS"))
+    // array.forEach(async (item, index)=>{
+    //   if(index < 5){
+    //     console.log(item.row)
+    //     const range = `I${item.row + skipInt}`
+    //     worksheet.getCell(range).value = "nada"
+    //     await this.workbook.xlsx.writeFile(this.filename)
+    //   }
+    // })
+    
+    // worksheet.getCell("G2").value = "nada"
   }
-
 }
 
 export { Excel };
