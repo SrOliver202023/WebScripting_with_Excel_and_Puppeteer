@@ -1,4 +1,4 @@
-import { Excel } from '../../service/Excel';
+import { Excel } from '../../services/Excel/Excel';
 const directory = __dirname + "/../../../../archives/";
 
 const excel = new Excel(directory + "AutoSombra.xlsx");
@@ -12,7 +12,6 @@ class ExecuteExcel {
         await excel.write("Contatos", arrayExcel);
     }
 }
-
 
 const executeExcel = new ExecuteExcel();
 executeExcel.writeFull();

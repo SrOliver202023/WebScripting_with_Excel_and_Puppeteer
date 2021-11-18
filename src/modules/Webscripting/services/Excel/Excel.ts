@@ -1,6 +1,6 @@
 import ExcelJS, { Workbook, WorksheetModel, Worksheet } from 'exceljs';
 import { IExcel } from './IExcel';
-import { IClient } from '../dtos/index';
+import { IClient } from '../../dtos/index';
 
 class Excel implements IExcel {
   private workbook: Workbook;
