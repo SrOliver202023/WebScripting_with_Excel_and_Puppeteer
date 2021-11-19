@@ -4,8 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "bot":"ts-node-dev --transpile-only --ignore-watch node_modules --respawn src/modules/Webscripting/services/Puppeteer/Puppeteer.ts",
-    "read": "ts-node-dev --transpile-only --ignore-watch node_modules --respawn src/modules/Webscripting/useCases/useExcel/",
+    "bot": "ts-node-dev --transpile-only --ignore-watch node_modules src/modules/Webscripting/services/Puppeteer/Puppeteer.ts",
+    "excel": "ts-node-dev --transpile-only --ignore-watch node_modules src/modules/Webscripting/useCases/useExcel/ExcelController.ts",
     "start": "nodemon src/server.js"
   },
   "devDependencies": {

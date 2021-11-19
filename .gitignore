@@ -1,2 +1,6 @@
+src/archives/xlsx/*.xlsx
+src/archives/images/*png
+src/archives/images/*jpg
+src/archives/images/*jpeg
+src/archives/images/*svg
 node_modules
-src/archives/*.xlsx

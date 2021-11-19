@@ -2,18 +2,18 @@
 import puppeteer from 'puppeteer';
 
 const urlBrowser = 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe';
+const urlBraveLinux = '/snap/bin/brave';
+
 
 async function initExecution() {
-  const browser = await puppeteer.launch({ headless: false, executablePath: urlBrowser });
+  const browser = await puppeteer.launch({ headless: false });
   const page = await browser.newPage();
   await page.goto('https://www.google.com');
 
-  await page.screenshot({ path: 'nadas.png' });
+  await page.screenshot({ path: 'src/archives/images/nadas.png' });
 
 
-  await browser.close();
+  // await browser.close();
 }
 
 initExecution();
-// t:/EMMERSON/Node.js/WebScriptExcel/
-// src/modules/Webscripting/services/Puppeteer/Puppeteer.ts

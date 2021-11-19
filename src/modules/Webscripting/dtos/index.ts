@@ -1,8 +1,8 @@
 interface IClient {
     row: number,
     name: string,
-    contact: string
+    contact: string;
 }
 
 
-export { IClient }
+export { IClient };
