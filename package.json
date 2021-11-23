@@ -6,6 +6,7 @@
   "scripts": {
     "bot": "ts-node-dev --transpile-only --ignore-watch node_modules src/modules/Webscripting/useCases/usePuppeteer/ZapBotController.ts",
     "excel": "ts-node-dev --transpile-only --ignore-watch node_modules src/modules/Webscripting/useCases/useExcel/ExcelController.ts",
+    "vZap": "ts-node-dev --transpile-only --ignore-watch node_modules src/modules/Webscripting/useCases/useVerifyWhatsApp/VerifyWhatsAppController.ts",
     "start": "nodemon src/server.js"
   },
   "devDependencies": {

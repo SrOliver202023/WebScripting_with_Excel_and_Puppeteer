@@ -8,6 +8,9 @@ interface IClientDTO {
     name: string,
     contact: string;
 }
+interface ICheckContactFound {
+    haveWhatsApp: boolean,
+    message: string;
+}
 
-
-export { IClient, IClientDTO };
+export { IClient, IClientDTO, ICheckContactFound };

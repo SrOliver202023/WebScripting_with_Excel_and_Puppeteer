@@ -11,7 +11,7 @@ class ExcelController {
     const excel = new Excel(directory);
 
     const worksheet = await excel.sheet("Contatos");
-    const callbackFunction = await excelUseCase.insertValues(worksheet);
+    const callbackFunction = await excelUseCase.insertValues(worksheet, "text");
 
     await excel.write(() => { callbackFunction; });
 

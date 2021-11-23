@@ -31,13 +31,13 @@ class ExcelUseCase {
 
     }
 
-    async insertValues(worksheet: Worksheet) {
+    async insertValues(worksheet: Worksheet, text: string) {
 
         const listRows = await this.parseSoldsToObject(worksheet);
         if (!listRows) throw new Error("There are no values in cells!");
 
         listRows.map((item, index) => {
-            worksheet.getCell(`H${item.row}`).value = `OK`;
+            worksheet.getCell(`H${item.row}`).value = `${text}`;
         });
 
     }
