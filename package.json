@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "bot": "ts-node-dev --transpile-only --ignore-watch node_modules src/modules/Webscripting/services/MakePuppeteer/Puppeteer.ts",
+    "bot": "ts-node-dev --transpile-only --ignore-watch node_modules src/modules/Webscripting/useCases/usePuppeteer/ZapBotController.ts",
     "excel": "ts-node-dev --transpile-only --ignore-watch node_modules src/modules/Webscripting/useCases/useExcel/ExcelController.ts",
     "start": "nodemon src/server.js"
   },

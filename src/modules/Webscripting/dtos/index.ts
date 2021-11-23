@@ -3,6 +3,11 @@ interface IClient {
     name: string,
     contact: string;
 }
+interface IClientDTO {
+    row: number,
+    name: string,
+    contact: string;
+}
 
 
-export { IClient };
+export { IClient, IClientDTO };

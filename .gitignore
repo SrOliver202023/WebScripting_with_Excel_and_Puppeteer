@@ -4,3 +4,4 @@ src/archives/images/*jpg
 src/archives/images/*jpeg
 src/archives/images/*svg
 node_modules
+src/user_data
