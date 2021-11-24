@@ -1,4 +1,4 @@
-import { Browser, Page, BrowserLaunchArgumentOptions } from 'puppeteer';
+import { Browser, Page } from 'puppeteer';
 import puppeteer from 'puppeteer';
 const urlWindows = 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe';
 const urlLinux = '/snap/bin/brave';
@@ -8,29 +8,18 @@ interface IZapBotUseCase {
   acessWhatssapWeb: void;
 }
 
-const launchOptions:
-  puppeteer.LaunchOptions &
-  BrowserLaunchArgumentOptions &
-  puppeteer.BrowserConnectOptions = {
-  defaultViewport: { width: 900, height: 800 },
-  headless: false, userDataDir: "./src/user_data",
-  // executablePath: urlWindows
-};
-
-
 class ZapBotUSeCase {
   public browser: Promise<Browser>;
   public page: Promise<Page>;
 
   constructor() {
-    this.browser = puppeteer.launch(launchOptions);
+    this.browser = puppeteer.launch({ defaultViewport: { width: 900, height: 800 }, headless: false, userDataDir: "./src/user_data", executablePath: urlWindows });
+
     this.page = this.browser.then(item => item.newPage());
   }
-
   async accessWhatssapWeb(url: string): Promise<void> {
     await (await this.page).goto(url);
   }
-
   async showContacts(page: Page): Promise<void> {
     await page.waitForSelector("#side > header > div._3yZPA > div > span > div:nth-child(2) > div > span > svg");
     await page.click("#side > header > div._3yZPA > div > span > div:nth-child(2) > div > span > svg");
@@ -38,12 +27,13 @@ class ZapBotUSeCase {
 
   async findContact(page: Page, contact: string): Promise<void> {
     const innerText = await page.$eval("._13NKt.copyable-text.selectable-text", (el) => el.textContent);
-
     if (String(innerText) !== '') {
-      await page.waitForSelector("#app > div._1ADa8._3Nsgw.app-wrapper-web.font-fix > div._1XkO3.two > div._3ArsE > div.ldL67._2i3T7 > span > div._1N4rE > span > div.nBIOd.tm2tP.copyable-area > div:nth-child(2) > div > span > button");
-      await page.click("#app > div._1ADa8._3Nsgw.app-wrapper-web.font-fix > div._1XkO3.two > div._3ArsE > div.ldL67._2i3T7 > span > div._1N4rE > span > div.nBIOd.tm2tP.copyable-area > div:nth-child(2) > div > span > button");
+      try {
+        await page.click("#app > div._1ADa8._3Nsgw.app-wrapper-web.os-win > div._1XkO3.two > div._3ArsE > div.ldL67._2i3T7 > span > div._1N4rE > span > div.nBIOd.tm2tP.copyable-area > div:nth-child(2) > div > span > button");
+      } catch (error) {
+        await page.click('#side > div.uwk68 > div > span > button');
+      }
     }
-
     await page.waitForSelector("._13NKt.copyable-text.selectable-text");
     await page.type("._13NKt.copyable-text.selectable-text", contact);
   }
@@ -66,7 +56,6 @@ class ZapBotUSeCase {
     const contactFound: ICheckContactFound = await page.$eval(".cm280p3y.p357zi0d.tvf2evcx.f8m0rgwh.gndfcl4n.fhf7t426.bvcnfjzh.cihm0v32.td5bf8pq.ctv2fiom.l3k7h4x6.hp667wtd.qfejxiq4.oq44ahr5.lb5m6g5c", (el) => el.textContent)
       .then(resp => { return { haveWhatsApp: false, message: 'Contact nonexistent!' }; })
       .catch(async (err) => {
-        await this.openChat(page, name);
         return { haveWhatsApp: true, message: 'Contact exists!' };
       });
     return contactFound;

@@ -50,12 +50,12 @@ class VerifyWhatsAppUseCase implements IVerifyWhatsAppUseCase {
   async processForEachClient(
     { zapBotController, clientListJSON, worksheet, excel }: IProcessForEachClient): Promise<void> {
     let j = 0;
-    let limit = 26;
+    let limit = clientListJSON.length - 1;
     const clientsVerifiedWhatsApp: Object[] = [];
 
-    for (let i = 0; i <= limit; i++ && j++) {
+    for (let i = 1380; i <= limit; i++ && j++) {
       let doLoop = await (async () => {
-        const text = await (zapBotController).execute(clientListJSON[i]);
+        let text = await (zapBotController).execute(clientListJSON[i]);
 
         console.log(clientListJSON[i]);
 

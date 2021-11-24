@@ -22,12 +22,13 @@ class ZapBotController implements IZapBotController {
 
   async initWhatsAppWeb() {
     await this.zapBotUseCase.accessWhatssapWeb('https://web.whatsapp.com/');
-    await this.zapBotUseCase.showContacts(await this.zapBotUseCase.page);
   }
 
   async execute({ row, name, contact }: IClient): Promise<String> {
+    await this.zapBotUseCase.showContacts(await this.zapBotUseCase.page);
     await this.zapBotUseCase.findContact(await this.zapBotUseCase.page, contact);
     const resultFound: ICheckContactFound = await this.zapBotUseCase.checkFoundContact(await this.zapBotUseCase.page, contact, name);
+    console.log(resultFound);
     return resultFound.haveWhatsApp === true ? "Yes" : "No";
   }
 
