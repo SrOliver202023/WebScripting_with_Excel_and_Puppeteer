@@ -1,4 +1,4 @@
-import { Browser, Page } from 'puppeteer';
+import { Browser, Page, BrowserLaunchArgumentOptions } from 'puppeteer';
 import puppeteer from 'puppeteer';
 const urlWindows = 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe';
 const urlLinux = '/snap/bin/brave';
@@ -8,18 +8,29 @@ interface IZapBotUseCase {
   acessWhatssapWeb: void;
 }
 
+const launchOptions:
+  puppeteer.LaunchOptions &
+  BrowserLaunchArgumentOptions &
+  puppeteer.BrowserConnectOptions = {
+  defaultViewport: { width: 900, height: 800 },
+  headless: false, userDataDir: "./src/user_data",
+  // executablePath: urlWindows
+};
+
+
 class ZapBotUSeCase {
   public browser: Promise<Browser>;
   public page: Promise<Page>;
 
   constructor() {
-    this.browser = puppeteer.launch({ defaultViewport: { width: 900, height: 800 }, headless: false, userDataDir: "./src/user_data", executablePath: urlWindows });
-
+    this.browser = puppeteer.launch(launchOptions);
     this.page = this.browser.then(item => item.newPage());
   }
+
   async accessWhatssapWeb(url: string): Promise<void> {
     await (await this.page).goto(url);
   }
+
   async showContacts(page: Page): Promise<void> {
     await page.waitForSelector("#side > header > div._3yZPA > div > span > div:nth-child(2) > div > span > svg");
     await page.click("#side > header > div._3yZPA > div > span > div:nth-child(2) > div > span > svg");
@@ -27,10 +38,12 @@ class ZapBotUSeCase {
 
   async findContact(page: Page, contact: string): Promise<void> {
     const innerText = await page.$eval("._13NKt.copyable-text.selectable-text", (el) => el.textContent);
-    console.log(innerText);
+
     if (String(innerText) !== '') {
-      await page.click("#app > div._1ADa8._3Nsgw.app-wrapper-web.os-win > div._1XkO3.two > div._3ArsE > div.ldL67._2i3T7 > span > div._1N4rE > span > div.nBIOd.tm2tP.copyable-area > div:nth-child(2) > div > span > button > span > svg");
+      await page.waitForSelector("#app > div._1ADa8._3Nsgw.app-wrapper-web.font-fix > div._1XkO3.two > div._3ArsE > div.ldL67._2i3T7 > span > div._1N4rE > span > div.nBIOd.tm2tP.copyable-area > div:nth-child(2) > div > span > button");
+      await page.click("#app > div._1ADa8._3Nsgw.app-wrapper-web.font-fix > div._1XkO3.two > div._3ArsE > div.ldL67._2i3T7 > span > div._1N4rE > span > div.nBIOd.tm2tP.copyable-area > div:nth-child(2) > div > span > button");
     }
+
     await page.waitForSelector("._13NKt.copyable-text.selectable-text");
     await page.type("._13NKt.copyable-text.selectable-text", contact);
   }

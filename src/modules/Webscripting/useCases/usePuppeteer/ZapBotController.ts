@@ -1,30 +1,34 @@
-import { Browser, HTTPResponse, Page } from 'puppeteer';
-import { ZapBotUSeCase, IZapBotUseCase } from './ZapBotUseCase';
+import { ZapBotUSeCase } from './ZapBotUseCase';
 import { IClient, ICheckContactFound } from '../../dtos';
 
 const client = {
   row: 1,
-  name: "Cleiton SAV",
-  contact: "+55 73 9927-8378"
+  name: "Client",
+  contact: "+55 73 9999-9999"
 };
 
-class ZapBotController {
+interface IZapBotController {
+  initWhatsAppWeb(): Promise<void>;
+  execute({ row, name, contact }: IClient): Promise<String>;
+  endWhatsAppWeb(): Promise<void>;
+}
+
+class ZapBotController implements IZapBotController {
   private zapBotUseCase;
 
   constructor() {
     this.zapBotUseCase = new ZapBotUSeCase();
   }
+
   async initWhatsAppWeb() {
     await this.zapBotUseCase.accessWhatssapWeb('https://web.whatsapp.com/');
     await this.zapBotUseCase.showContacts(await this.zapBotUseCase.page);
   }
 
-  async execute({ row, name, contact }: IClient): Promise<Boolean> {
+  async execute({ row, name, contact }: IClient): Promise<String> {
     await this.zapBotUseCase.findContact(await this.zapBotUseCase.page, contact);
-
     const resultFound: ICheckContactFound = await this.zapBotUseCase.checkFoundContact(await this.zapBotUseCase.page, contact, name);
-    console.log(resultFound);
-    return resultFound.haveWhatsApp === true ? true : false;
+    return resultFound.haveWhatsApp === true ? "Yes" : "No";
   }
 
   async endWhatsAppWeb() {
@@ -32,15 +36,4 @@ class ZapBotController {
   }
 }
 
-// async function run() {
-//   const zapBotController = new ZapBotController();
-//   await zapBotController.initWhatsAppWeb();
-//   await zapBotController.execute(client);
-//   await zapBotController.execute(client);
-//   await zapBotController.execute(client);
-//   await zapBotController.execute(client);
-//   await zapBotController.execute(client);
-// }
-// run();
-
-export { ZapBotController };
+export { ZapBotController, IZapBotController };
