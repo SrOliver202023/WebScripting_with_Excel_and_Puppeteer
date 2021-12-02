@@ -6,5 +6,6 @@ src/archives/images/*jpeg
 src/archives/images/*svg
 src/archives/images/*csv
 src/archives/json/*.json
+src/archives/xlsx/*.rar
 node_modules
 src/user_data
