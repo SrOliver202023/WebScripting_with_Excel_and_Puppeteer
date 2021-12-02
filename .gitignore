@@ -1,4 +1,5 @@
 src/archives/xlsx/*.xlsx
+src/archives/xlsx/*.csv
 src/archives/images/*png
 src/archives/images/*jpg
 src/archives/images/*jpeg
