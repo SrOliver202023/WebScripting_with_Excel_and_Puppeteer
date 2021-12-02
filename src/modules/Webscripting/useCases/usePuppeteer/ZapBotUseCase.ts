@@ -1,8 +1,11 @@
 import { Browser, Page } from 'puppeteer';
 import puppeteer from 'puppeteer';
-const urlWindows = 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe';
-const urlLinux = '/snap/bin/brave';
+const urlWindowsPC1 = 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe';
+const urlWindowsPC2 = "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe";
+
 import { IClient, ICheckContactFound } from '../../dtos';
+
+const urlBrowser = urlWindowsPC1;
 
 interface IZapBotUseCase {
   acessWhatssapWeb: void;
@@ -13,7 +16,7 @@ class ZapBotUSeCase {
   public page: Promise<Page>;
 
   constructor() {
-    this.browser = puppeteer.launch({ defaultViewport: { width: 900, height: 800 }, headless: false, userDataDir: "./src/user_data", executablePath: urlWindows });
+    this.browser = puppeteer.launch({ defaultViewport: { width: 900, height: 800 }, headless: false, userDataDir: "./src/user_data", executablePath: urlBrowser });
 
     this.page = this.browser.then(item => item.newPage());
   }

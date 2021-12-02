@@ -1,0 +1,50 @@
+select 
+ 'Setor' = c.codmtcepgvdd,
+ 'Vendedor' = e.nomepg,
+ 'Sold'	= a.codcet,                                                       
+ 'Razão'	= a.nomrazsclcet,
+ 'CNPJ / CPF'	= a.codcgccpfcet,
+ 'Cidade' = descdd,
+ 'CEP'		= g.codcepcet,
+ 'Categoria'	= b.descti,
+ 'Telefone'	= f.numtlfcet,
+ 'Seq' = j.numseqvst,
+ 'LATITUDE' = a.latcet,
+ 'LONGITUDE' = a.loncet,
+ 'Dt Ult Com' = (select max(DATETGPDD)from ibetpdd where ibetpdd.codcet = a.codcet and ibetpdd.numdocpdd>0)         
+
+// Clientes
+from 	ibetcet a 
+
+
+left join ibetcti b
+on a.codcti = b.codcti
+
+left join ibetpdrgpocmzmrccet c
+on a.codcet = c.codcet 
+AND c.CODMTCEPGVDD != 997,998
+
+left join ibetcndpgt d
+on c.codcndpgtrvd = d.codcndpgt
+
+left join ibetcplepg e
+on c.codmtcepgvdd = e.codmtcepg
+
+left join ibetedrcet g
+on a.codcet = g.codcet
+and codtpoedr = 1
+
+left join ibetcdd h
+on g.codcdd = h.codcdd
+and g.coduf_ = h.coduf_
+
+left join ibetbro i
+on g.codbro = i.codbro
+and h.coduf_ = i.coduf_
+and h.codcdd = i.codcdd
+
+LEFT JOIN ibetvstcet j
+ON a.codcet = j.codcet LEFT JOIN ibettlfcet f
+ON a.codcet = f.codcet AND f.codtpotlf = 2
+WHERE c.CODGPOCMZMRC = 2 AND j.CODGPOCMZMRC = 2
+ORDER BY c.codmtcepgvdd, a.nomrazsclcet
